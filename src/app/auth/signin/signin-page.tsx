@@ -73,7 +73,7 @@ export default function SigninPage() {
             <span className="flex-grow">Continue with Spotify</span>
           </div>
         </Button>
-        <div className="flex items-center gap-4">
+        <div className="flex w-full items-center gap-4">
           <Separator className="w-32" />
           <span>or</span>
           <Separator className="w-32" />

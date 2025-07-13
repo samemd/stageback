@@ -8,10 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { api } from "~/trpc/react";
+import { api, type RouterOutputs } from "~/trpc/react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { RouterOutputs } from "~/trpc/shared";
 
 export default function TeamSelection({
   initialTeams,
@@ -41,7 +40,7 @@ export default function TeamSelection({
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-accent-foreground">
+      <h1 className="text-accent-foreground text-3xl font-bold">
         Select your team
       </h1>
       {!isIdle ? (
@@ -54,7 +53,7 @@ export default function TeamSelection({
             updateActiveTeam(id);
           }}
         >
-          <SelectTrigger className="text-md h-12 w-full border-accent">
+          <SelectTrigger className="text-md border-accent h-12 w-full">
             <SelectValue placeholder="Teams" />
           </SelectTrigger>
           <SelectContent>

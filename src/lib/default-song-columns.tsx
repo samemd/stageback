@@ -1,5 +1,5 @@
 import { type Column, type ColumnDef } from "@tanstack/react-table";
-import { type SongWithRelations } from "~/trpc/shared";
+import { type SongWithRelations } from "~/lib/types";
 import IndexPlayButton from "~/components/index-play-button";
 import Link from "next/link";
 import { formatDuration } from "~/lib/utils";
@@ -8,16 +8,13 @@ import SongActions from "~/components/song-actions";
 import ImageWithFallback from "~/components/image-with-fallback";
 import SongTitle from "~/components/song-title";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
-import { type IconType } from "react-icons";
 
 const headerWithSorting =
   (name: string) =>
   // eslint-disable-next-line react/display-name
   ({ column }: { column: Column<SongWithRelations> }) => {
     const isSorted = column.getIsSorted();
-    const Icon = (
-      column.getIsSorted() === "asc" ? HiChevronUp : HiChevronDown
-    ) as IconType;
+    const Icon = column.getIsSorted() === "asc" ? HiChevronUp : HiChevronDown;
     function onClick() {
       if (column.getIsSorted() === "desc") {
         column.clearSorting();

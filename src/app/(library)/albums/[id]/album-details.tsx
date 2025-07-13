@@ -1,12 +1,12 @@
 "use client";
 
-import { api } from "~/trpc/react";
+import { api, type RouterOutputs } from "~/trpc/react";
 import ImageWithFallback from "~/components/image-with-fallback";
 import { Button } from "~/components/ui/button";
 import { HiPlay } from "react-icons/hi2";
 import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { type RouterOutputs, type SongWithRelations } from "~/trpc/shared";
+import { type SongWithRelations } from "~/lib/types";
 import usePlayer from "~/app/_hooks/usePlayer";
 import { type ColumnDef } from "@tanstack/react-table";
 import { formatDuration } from "~/lib/utils";

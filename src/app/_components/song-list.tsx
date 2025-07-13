@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { type SongWithRelations } from "~/trpc/shared";
+import { type SongWithRelations } from "~/lib/types";
 
 interface SongListProps<TData extends SongWithRelations, TValue> {
   columns: ColumnDef<TData, TValue>[];

@@ -29,7 +29,10 @@ export default function AudioPlayer() {
   // handle play/pause
   useEffect(() => {
     if (!audioRef.current) return;
-    player.isPlaying ? void audioRef.current.play() : audioRef.current.pause();
+    if (player.isPlaying) {
+      return void audioRef.current.play();
+    }
+    return audioRef.current.pause();
   }, [player.isPlaying]);
 
   // use space bar to play/pause
@@ -78,7 +81,7 @@ export default function AudioPlayer() {
   if (!activeSong) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 h-[70px] bg-background px-4 py-3 text-background">
+    <div className="bg-background text-background fixed inset-x-0 bottom-0 h-[70px] px-4 py-3">
       <audio
         ref={audioRef}
         preload="auto"
@@ -100,7 +103,7 @@ export default function AudioPlayer() {
           />
           <div className="flex w-full flex-col">
             <TitleScroller title={activeSong.title} />
-            <div className="text-xs font-light text-foreground">
+            <div className="text-foreground text-xs font-light">
               {activeSong.artist}
             </div>
           </div>

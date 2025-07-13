@@ -2,10 +2,10 @@
 
 import { api } from "~/trpc/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { type SongWithRelations } from "~/trpc/shared";
 import { defaultSongColumns } from "~/lib/default-song-columns";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { type SongWithRelations } from "~/lib/types";
 
 const VersionConnector = dynamic(
   () => import("~/components/version-connector"),

@@ -1,7 +1,6 @@
 "use client";
 
-import { api } from "~/trpc/react";
-import { type RouterOutputs, type SongWithRelations } from "~/trpc/shared";
+import { api, type RouterOutputs } from "~/trpc/react";
 import ImageWithFallback from "~/components/image-with-fallback";
 import React from "react";
 import usePlayer from "~/app/_hooks/usePlayer";
@@ -15,6 +14,7 @@ import IndexPlayButton from "~/components/index-play-button";
 import SongTitle from "~/components/song-title";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { type SongWithRelations } from "~/lib/types";
 
 const VersionConnector = dynamic(
   () => import("~/components/version-connector"),

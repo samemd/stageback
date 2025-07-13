@@ -43,10 +43,6 @@ export const authConfig: NextAuthConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
-    jwt({ token, trigger, session }) {
-      if (trigger === "update") token.name = session?.user?.name;
-      return token;
-    },
     authorized: async ({ auth }) => {
       // Logged in users are authenticated, otherwise redirect to login page
       return !!auth;

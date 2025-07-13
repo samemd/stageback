@@ -1,9 +1,8 @@
 "use client";
 
-import { type RouterOutputs } from "~/trpc/shared";
 import { Button } from "~/components/ui/button";
 import { useRouter } from "next/navigation";
-import { api } from "~/trpc/react";
+import { api, type RouterOutputs } from "~/trpc/react";
 import { useSession } from "next-auth/react";
 import { ImSpinner2 } from "react-icons/im";
 import * as React from "react";

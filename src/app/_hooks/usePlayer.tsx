@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { type SongWithRelations } from "~/trpc/shared";
+import { type SongWithRelations } from "~/lib/types";
 
 interface PlayerStore {
   activeSong?: SongWithRelations;

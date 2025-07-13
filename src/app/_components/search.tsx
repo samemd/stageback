@@ -9,23 +9,18 @@ import { debounce } from "~/lib/utils";
 import { Input } from "~/components/ui/input";
 import { HiSearch } from "react-icons/hi";
 import usePlayer from "~/app/_hooks/usePlayer";
-
-function stringOrUndefined(str: unknown) {
-  if (typeof str === "string") {
-    return str;
-  }
-  return undefined;
-}
+import { keepPreviousData } from "@tanstack/react-query";
+import { type SongWithRelations } from "~/lib/types";
 
 export default function Search() {
   const { setSpaceBarEnabled } = usePlayer();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement>(null);
-  const q = stringOrUndefined(searchParams.get("q"));
+  const q = searchParams.get("q");
   const { data: songs, isFetching } = api.song.search.useQuery(q, {
     enabled: Boolean(q),
-    keepPreviousData: Boolean(q),
+    placeholderData: keepPreviousData,
   });
 
   // Focus the input element on component mount
@@ -62,8 +57,8 @@ export default function Search() {
           ref={inputRef}
           type="search"
           name="q"
-          className="h-12 rounded-full bg-background pl-10"
-          defaultValue={q}
+          className="bg-background h-12 rounded-full pl-10"
+          defaultValue={q ?? undefined}
           onChange={(e) => debouncedSearch(e.target.value)}
           onFocus={() => setSpaceBarEnabled(false)}
           onBlur={() => setSpaceBarEnabled(true)}
@@ -73,7 +68,10 @@ export default function Search() {
         </div>
       </div>
       {songs?.length ? (
-        <SongList columns={defaultSongColumns} songs={songs} />
+        <SongList
+          columns={defaultSongColumns}
+          songs={songs as SongWithRelations[]}
+        />
       ) : (
         <div className="flex h-full flex-col items-center justify-center">
           <div>{message}</div>

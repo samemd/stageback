@@ -4,8 +4,7 @@ import usePlayer from "~/app/_hooks/usePlayer";
 import { HiPause, HiPlay } from "react-icons/hi2";
 import { type HTMLAttributes, type MouseEvent } from "react";
 import { cn } from "~/lib/utils";
-import { type SongWithRelations } from "~/trpc/shared";
-import { type IconType } from "react-icons";
+import { type SongWithRelations } from "~/lib/types";
 
 type PlayButtonProps = HTMLAttributes<HTMLDivElement> & {
   index: number;
@@ -28,9 +27,7 @@ export default function IndexPlayButton({
     else player.togglePlay();
     if (player.tempIds.length) player.updateIds();
   }
-  const Icon = (
-    isCurrentlyActive && player.isPlaying ? HiPause : HiPlay
-  ) as IconType;
+  const Icon = isCurrentlyActive && player.isPlaying ? HiPause : HiPlay;
 
   return (
     <div className={cn("flex justify-center", className)}>

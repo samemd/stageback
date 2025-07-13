@@ -70,8 +70,10 @@ export const songRouter = createTRPCRouter({
     }),
 
   search: protectedProcedure
-    .input(z.string().optional())
+    .input(z.string().nullable())
     .query(({ ctx, input: query }) => {
+      if (!query) return [];
+
       return ctx.db.song.findMany({
         where: {
           teamId: ctx.session.user.activeTeamId,
