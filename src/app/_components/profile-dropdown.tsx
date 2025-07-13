@@ -47,10 +47,8 @@ export default function ProfileDropdown() {
   return (
     <div className="flex items-center gap-4">
       <DropdownMenu>
-        <DropdownMenuTrigger className="rounded-full" asChild>
-          <div>
-            <HiOutlineUser className="h-9 w-9 rounded-full border border-primary p-2 text-accent-foreground hover:scale-110 hover:bg-background" />
-          </div>
+        <DropdownMenuTrigger className="rounded-full">
+          <HiOutlineUser className="border-primary text-accent-foreground hover:bg-background h-9 w-9 rounded-full border p-2" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-52" align="end">
           <DropdownMenuLabel>{team?.name}</DropdownMenuLabel>

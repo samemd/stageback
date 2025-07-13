@@ -1,15 +1,10 @@
-import {
-  type DefaultSession,
-  getServerSession,
-  type NextAuthOptions,
-} from "next-auth";
+import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import SpotifyProvider from "next-auth/providers/spotify";
-import EmailProvider from "next-auth/providers/email";
 
 import { env } from "~/env.mjs";
 import { db } from "~/server/db";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -35,8 +30,27 @@ declare module "next-auth" {
  *
  * @see https://next-auth.js.org/configuration/options
  */
-export const authOptions: NextAuthOptions = {
+export const authConfig: NextAuthConfig = {
+  providers: [
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
+    SpotifyProvider({
+      clientId: env.SPOTIFY_CLIENT_ID,
+      clientSecret: env.SPOTIFY_CLIENT_SECRET,
+    }),
+  ],
+  adapter: PrismaAdapter(db),
   callbacks: {
+    jwt({ token, trigger, session }) {
+      if (trigger === "update") token.name = session?.user?.name;
+      return token;
+    },
+    authorized: async ({ auth }) => {
+      // Logged in users are authenticated, otherwise redirect to login page
+      return !!auth;
+    },
     session: async ({ session, user }) => {
       return {
         ...session,
@@ -48,21 +62,6 @@ export const authOptions: NextAuthOptions = {
       };
     },
   },
-  adapter: PrismaAdapter(db),
-  providers: [
-    EmailProvider({
-      server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM,
-    }),
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    }),
-    SpotifyProvider({
-      clientId: env.SPOTIFY_CLIENT_ID,
-      clientSecret: env.SPOTIFY_CLIENT_SECRET,
-    }),
-  ],
   pages: {
     signIn: "/auth/signin",
     verifyRequest: "/auth/verify-request",
@@ -74,10 +73,3 @@ export const authOptions: NextAuthOptions = {
     buttonText: "#f8f8f8", // Hex color code
   },
 };
-
-/**
- * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
- *
- * @see https://next-auth.js.org/configuration/nextjs
- */
-export const getServerAuthSession = () => getServerSession(authOptions);

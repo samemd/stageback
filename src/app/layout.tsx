@@ -1,9 +1,10 @@
 import "~/styles/globals.css";
-import { GeistSans } from "geist/font/sans";
-import { cookies } from "next/headers";
+import { Geist } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import NextAuthProvider from "~/app/_providers/auth-provider";
 import { type ReactNode } from "react";
+import { Toaster } from "sonner";
+import { ThemeProvider } from "~/app/_providers/theme-provider";
 
 export const metadata = {
   title: "StageBack",
@@ -11,13 +12,32 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${GeistSans.variable}`}>
-        <TRPCReactProvider cookies={cookies().toString()}>
-          <NextAuthProvider>{children}</NextAuthProvider>
-        </TRPCReactProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`font-sans ${geist.variable}`}>
+        <NextAuthProvider>
+          <TRPCReactProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </TRPCReactProvider>
+        </NextAuthProvider>
+        <Toaster />
       </body>
     </html>
   );

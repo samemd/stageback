@@ -5,7 +5,7 @@ import React, { createContext, useRef, useState } from "react";
 type Ids = { active: string[]; temp: string[] };
 
 type AudioCtxType = {
-  audioRef: React.RefObject<HTMLAudioElement>;
+  audioRef: React.RefObject<HTMLAudioElement | null>;
   id?: string;
   ids: Ids;
   setId: React.Dispatch<React.SetStateAction<string | undefined>>;

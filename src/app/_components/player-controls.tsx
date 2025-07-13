@@ -9,7 +9,7 @@ import { Button } from "~/components/ui/button";
 import { BsFillSkipEndFill, BsFillSkipStartFill } from "react-icons/bs";
 import { api } from "~/trpc/react";
 
-type PlayerControlsProps = { audioRef: RefObject<HTMLAudioElement> };
+type PlayerControlsProps = { audioRef: RefObject<HTMLAudioElement | null> };
 
 export default function PlayerControls({ audioRef }: PlayerControlsProps) {
   const player = usePlayer();

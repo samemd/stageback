@@ -32,6 +32,12 @@ export const teamRouter = createTRPCRouter({
     });
   }),
 
+  getActive: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.team.findUnique({
+      where: { id: ctx.session.user.activeTeamId },
+    });
+  }),
+
   connectUser: protectedProcedure
     .input(z.string())
     .mutation(({ ctx, input: teamId }) => {

@@ -35,26 +35,27 @@ export default function SigninPage() {
 
   const options: SignInOptions = {
     redirect: true,
-    callbackUrl: `${redirect}?${params.toString()}`,
+    redirectTo: `${redirect}?${params.toString()}`,
   };
 
   return (
     <>
       <h1
-        className={cn("mb-12 mt-4 text-4xl font-bold text-accent-foreground", {
+        className={cn("text-accent-foreground mt-4 mb-12 text-4xl font-bold", {
           "mb-6": !!error,
         })}
       >
         StageBack
       </h1>
       {error && (
-        <div className="mb-6 w-full rounded-md bg-primary/10 p-2 text-sm text-primary">
+        <div className="bg-primary/10 text-primary mb-6 w-full rounded-md p-2 text-sm">
           {AuthError[error as keyof typeof AuthError] ?? error}
         </div>
       )}
       <div className="flex h-full w-full flex-col items-center gap-8">
         <Button
-          className="w-full bg-accent py-6 hover:bg-foreground/50"
+          className="w-full py-6"
+          variant="secondary"
           onClick={() => signIn("google", options)}
         >
           <div className="flex w-full items-center">
@@ -63,7 +64,8 @@ export default function SigninPage() {
           </div>
         </Button>
         <Button
-          className="w-full bg-accent py-6 hover:bg-foreground/50"
+          className="w-full py-6"
+          variant="secondary"
           onClick={() => signIn("spotify", options)}
         >
           <div className="flex w-full items-center">
@@ -91,7 +93,7 @@ export default function SigninPage() {
             </Label>
             <Button
               onClick={() => signIn("email", { ...options, email: email })}
-              className="w-full py-6"
+              className="mt-4 w-full py-6"
             >
               Continue
             </Button>

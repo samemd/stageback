@@ -5,7 +5,6 @@ import { extractRouterConfig } from "uploadthing/server";
 import PageWithAuth from "~/components/page-with-auth";
 import dynamic from "next/dynamic";
 import { type ReactNode, Suspense } from "react";
-import { Toaster } from "~/components/ui/toaster";
 
 const AudioPlayer = dynamic(() => import("~/components/audio-player"));
 
@@ -18,7 +17,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Suspense>
           <AudioPlayer />
         </Suspense>
-        <Toaster />
       </PageWithAuth>
     </Sidebar>
   );

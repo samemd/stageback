@@ -5,7 +5,7 @@ import * as React from "react";
 import { type RefObject, useEffect, useState } from "react";
 
 interface AudioProgressBarProps extends React.ComponentProps<typeof Slider> {
-  audioRef: RefObject<HTMLAudioElement>;
+  audioRef: RefObject<HTMLAudioElement | null>;
   duration: number;
 }
 

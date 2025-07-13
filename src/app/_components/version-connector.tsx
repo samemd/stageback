@@ -20,8 +20,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import useVersionConnector from "~/app/_hooks/useVersionConnector";
-import { toast } from "~/components/ui/use-toast";
-import { HiCheckCircle } from "react-icons/hi2";
+import { toast } from "sonner";
 
 export default function VersionConnector() {
   const { isOpen, setIsOpen, song } = useVersionConnector();
@@ -32,10 +31,7 @@ export default function VersionConnector() {
     onSuccess: () => {
       setIsOpen(false);
       void utils.song.getMainVersions.invalidate();
-      toast({
-        title: "Version connected!",
-        action: <HiCheckCircle size={32} className="text-green-200" />,
-      });
+      toast.success("Version connected!");
     },
   });
 

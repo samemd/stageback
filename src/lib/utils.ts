@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import axios from "axios";
 import { type Readable } from "node:stream";
-import * as mm from "music-metadata/lib/core";
+import { parseStream } from "music-metadata";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,7 +19,7 @@ export async function getMetadata(url: string, size: number) {
     responseType: "stream",
   });
 
-  return await mm.parseStream(
+  return await parseStream(
     response.data,
     {
       mimeType: "audio/mpeg",

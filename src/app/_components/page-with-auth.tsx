@@ -1,9 +1,8 @@
 import { type HTMLAttributes, Suspense } from "react";
 import { cn } from "~/lib/utils";
-import dynamic from "next/dynamic";
-
-const ProfileDropdown = dynamic(() => import("~/components/profile-dropdown"));
-const Navigation = dynamic(() => import("~/components/navigation"));
+import { ThemeSwitcher } from "~/components/theme-switcher";
+import Navigation from "~/components/navigation";
+import ProfileDropdown from "~/components/profile-dropdown";
 
 export default function PageWithAuth({
   children,
@@ -12,14 +11,17 @@ export default function PageWithAuth({
   return (
     <div
       className={cn(
-        "flex w-full flex-col items-center overflow-auto rounded-md bg-card p-10 pt-4",
+        "bg-card flex w-full flex-col items-center overflow-auto rounded-md p-10 pt-4",
         className,
       )}
     >
       <div className="mb-4 flex w-full justify-between">
         <Suspense>
           <Navigation />
-          <ProfileDropdown />
+          <div className="flex gap-4">
+            <ProfileDropdown />
+            <ThemeSwitcher />
+          </div>
         </Suspense>
       </div>
       {children}
