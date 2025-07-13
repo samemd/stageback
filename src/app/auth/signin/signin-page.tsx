@@ -92,7 +92,8 @@ export default function SigninPage() {
               />
             </Label>
             <Button
-              onClick={() => signIn("email", { ...options, email: email })}
+              type="submit"
+              onClick={() => signIn("resend", { ...options, email })}
               className="mt-4 w-full py-6"
             >
               Continue

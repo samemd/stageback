@@ -5,6 +5,7 @@ import SpotifyProvider from "next-auth/providers/spotify";
 import { env } from "~/env.mjs";
 import { db } from "~/server/db";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import Resend from "@auth/core/providers/resend";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -39,6 +40,10 @@ export const authConfig: NextAuthConfig = {
     SpotifyProvider({
       clientId: env.SPOTIFY_CLIENT_ID,
       clientSecret: env.SPOTIFY_CLIENT_SECRET,
+    }),
+    Resend({
+      apiKey: env.RESEND_KEY,
+      from: "no-reply@send.samuelemde.xyz",
     }),
   ],
   adapter: PrismaAdapter(db),

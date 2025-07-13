@@ -29,8 +29,8 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string(),
     SPOTIFY_CLIENT_ID: z.string(),
     SPOTIFY_CLIENT_SECRET: z.string(),
-    EMAIL_SERVER: z.string(),
-    EMAIL_FROM: z.string(),
+    RESEND_KEY: z.string(),
+    UPLOADTHING_TOKEN: z.string(),
   },
 
   /**
@@ -54,11 +54,11 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
-    EMAIL_SERVER: process.env.EMAIL_SERVER,
-    EMAIL_FROM: process.env.EMAIL_FROM,
+    RESEND_KEY: process.env.RESEND_KEY,
     DATABASE_URL: process.env.DATABASE_URL,
     PRISMA_DATABASE_URL: process.env.PRISMA_DATABASE_URL,
     POSTGRES_URL: process.env.POSTGRES_URL,
+    UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
