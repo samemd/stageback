@@ -11,13 +11,29 @@ import { HiEllipsisHorizontal } from "react-icons/hi2";
 import Link from "next/link";
 import { type Song } from ".prisma/client";
 import useVersionConnector from "~/app/_hooks/useVersionConnector";
+import { api } from "~/trpc/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type SongActionsProps = {
   song: Song;
 };
 
 export default function SongActions({ song }: SongActionsProps) {
+  const router = useRouter();
+  const utils = api.useUtils();
   const { setSong, setIsOpen: setVersionModalOpen } = useVersionConnector();
+
+  const { mutate: promote } = api.song.promoteToMainVersion.useMutation({
+    onSuccess: (data) => {
+      void utils.song.getMainVersions.invalidate();
+      void utils.song.getAll.invalidate();
+      void utils.song.getById.invalidate(song.id);
+      router.replace(`/songs/${data.id}`);
+      toast.success("Promoted to main Version!");
+    },
+  });
+
   return (
     <div className="flex justify-center">
       <DropdownMenu>
@@ -37,7 +53,9 @@ export default function SongActions({ song }: SongActionsProps) {
             Version of...
           </DropdownMenuItem>
           {song.versionOfId && (
-            <DropdownMenuItem>Promote to main version</DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => promote({ id: song.id })}>
+              Promote to main version
+            </DropdownMenuItem>
           )}
           {song.versionOfId && (
             <DropdownMenuItem>Unlink version</DropdownMenuItem>

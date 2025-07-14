@@ -27,7 +27,7 @@ export default function VersionConnector() {
   const { data: mainVersions } = api.song.getMainVersions.useQuery();
 
   const utils = api.useUtils();
-  const { mutate } = api.song.connectVersion.useMutation({
+  const { mutate: connect } = api.song.connectVersion.useMutation({
     onSuccess: () => {
       setIsOpen(false);
       void utils.song.getMainVersions.invalidate();
@@ -70,7 +70,7 @@ export default function VersionConnector() {
           <Button
             type="submit"
             disabled={!versionOfId}
-            onClick={() => mutate({ id: song.id, versionOfId: versionOfId! })}
+            onClick={() => connect({ id: song.id, versionOfId: versionOfId! })}
           >
             Connect
           </Button>

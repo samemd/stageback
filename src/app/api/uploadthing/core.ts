@@ -35,7 +35,7 @@ export const fileRouter = {
     }),
 
   audioUploader: f({
-    "audio/mpeg": {
+    audio: {
       maxFileSize: "16MB",
       maxFileCount: 10,
       contentDisposition: "attachment",
@@ -46,8 +46,8 @@ export const fileRouter = {
       return { ...session };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      const { key, name, url, size } = file;
-      const md = await getMetadata(url, size);
+      const { key, name, ufsUrl, size } = file;
+      const md = await getMetadata(ufsUrl, size);
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { picture, ...commonMetadata } = md.common;
@@ -64,7 +64,7 @@ export const fileRouter = {
               },
             }
           : undefined,
-        url,
+        url: ufsUrl,
         trackNo: md.common.track.no,
         trackOf: md.common.track.of,
         size: BigInt(size),

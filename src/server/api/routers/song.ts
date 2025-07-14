@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { SongUncheckedCreateInputSchema } from "../../../../prisma/generated/zod";
+import { TRPCError } from "@trpc/server";
 
 export const songRouter = createTRPCRouter({
   create: protectedProcedure
@@ -67,6 +68,45 @@ export const songRouter = createTRPCRouter({
         where: { id: { in: ids } },
         data: { versionOfId: input.versionOfId },
       });
+    }),
+
+  promoteToMainVersion: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const song = await ctx.db.song.findFirst({
+        where: { id: input.id },
+      });
+
+      if (!song) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
+      const currentMainVersionId = song.versionOfId;
+
+      if (!currentMainVersionId) {
+        throw new TRPCError({ code: "BAD_REQUEST" });
+      }
+
+      const subVersions = await ctx.db.song.findMany({
+        where: { versionOfId: currentMainVersionId },
+      });
+
+      const ids = [currentMainVersionId, ...subVersions.map((v) => v.id)];
+
+      await ctx.db.$transaction([
+        ctx.db.song.updateMany({
+          where: {
+            id: { in: ids },
+          },
+          data: { versionOfId: input.id },
+        }),
+        ctx.db.song.update({
+          where: { id: input.id },
+          data: { versionOfId: null },
+        }),
+      ]);
+
+      return { success: true, id: song.id };
     }),
 
   search: protectedProcedure
