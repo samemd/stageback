@@ -73,4 +73,5 @@ export const authConfig: NextAuthConfig = {
     // logo: "", // Absolute URL to image
     buttonText: "#f8f8f8", // Hex color code
   },
+  trustHost: true,
 };

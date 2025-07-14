@@ -3,10 +3,10 @@
 import { cn } from "~/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { HiCollection } from "react-icons/hi";
-import SidebarItem from "~/components/sidebar-item";
+import SidebarItem from "~/components/layout/sidebar-item";
 import { RiHomeLine, RiSearchLine } from "react-icons/ri";
 import { HiMusicalNote, HiQueueList } from "react-icons/hi2";
-import usePlayer from "~/app/_hooks/usePlayer";
+import usePlayer from "~/app/_hooks/use-player";
 import React from "react";
 import Link from "next/link";
 
@@ -17,15 +17,15 @@ export function Sidebar({ className, children }: SidebarProps) {
 
   return (
     <div
-      className={cn("flex h-full bg-background", className, {
+      className={cn("bg-background flex h-full", className, {
         "h-[calc(100%-60px)]": !!activeSong,
       })}
     >
-      <div className="hidden w-[250px] shrink-0 flex-col gap-2.5 bg-background p-2.5 md:flex">
+      <div className="bg-background hidden w-[250px] shrink-0 flex-col gap-2.5 p-2.5 md:flex">
         <Card>
           <CardHeader>
             <CardTitle className="w-36 cursor-pointer bg-gradient-to-r from-red-600 to-yellow-600 bg-clip-text text-2xl text-transparent">
-              <Link href={"/"}>StageBack</Link>
+              <Link href={"/public"}>StageBack</Link>
             </CardTitle>
           </CardHeader>
           <CardContent>

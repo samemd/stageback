@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import useVersionConnector from "~/app/_hooks/useVersionConnector";
+import useVersionConnector from "~/app/_hooks/use-version-connector";
 import { toast } from "sonner";
 
 export default function VersionConnector() {
@@ -29,8 +29,8 @@ export default function VersionConnector() {
   const utils = api.useUtils();
   const { mutate: connect } = api.song.connectVersion.useMutation({
     onSuccess: () => {
-      setIsOpen(false);
       void utils.song.getMainVersions.invalidate();
+      setIsOpen(false);
       toast.success("Version connected!");
     },
   });

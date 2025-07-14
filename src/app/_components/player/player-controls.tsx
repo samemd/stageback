@@ -4,7 +4,7 @@ import { ImSpinner2 } from "react-icons/im";
 import { HiPause, HiPlay } from "react-icons/hi";
 import * as React from "react";
 import { type RefObject, useEffect, useState } from "react";
-import usePlayer from "~/app/_hooks/usePlayer";
+import usePlayer from "~/app/_hooks/use-player";
 import { Button } from "~/components/ui/button";
 import { BsFillSkipEndFill, BsFillSkipStartFill } from "react-icons/bs";
 import { api } from "~/trpc/react";
@@ -52,7 +52,7 @@ export default function PlayerControls({ audioRef }: PlayerControlsProps) {
   return (
     <div className="flex items-center justify-center gap-4">
       <Button variant="player" className="h-7 w-7 p-0">
-        <BsFillSkipStartFill className="h-full w-full text-muted-foreground hover:text-accent-foreground" />
+        <BsFillSkipStartFill className="text-muted-foreground hover:text-accent-foreground h-full w-full" />
       </Button>
       <Button
         disabled={!isReady}
@@ -76,7 +76,7 @@ export default function PlayerControls({ audioRef }: PlayerControlsProps) {
         variant="player"
         className="h-7 w-7 p-0"
       >
-        <BsFillSkipEndFill className="h-full w-full text-muted-foreground hover:text-accent-foreground" />
+        <BsFillSkipEndFill className="text-muted-foreground hover:text-accent-foreground h-full w-full" />
       </Button>
     </div>
   );

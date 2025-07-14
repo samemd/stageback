@@ -1,23 +1,24 @@
 "use client";
 
-import { api, type RouterOutputs } from "~/trpc/react";
+import { api } from "~/trpc/react";
 import ImageWithFallback from "~/components/image-with-fallback";
-import React from "react";
-import usePlayer from "~/app/_hooks/usePlayer";
-import SongList from "~/components/song-list";
+import React, { Suspense } from "react";
+import usePlayer from "~/app/_hooks/use-player";
+import SongList from "~/components/song/song-list";
 import { type ColumnDef } from "@tanstack/react-table";
 import { formatDuration } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import { HiPause, HiPlay } from "react-icons/hi2";
-import SongActions from "~/components/song-actions";
-import IndexPlayButton from "~/components/index-play-button";
-import SongTitle from "~/components/song-title";
+import SongActions from "~/components/song/song-actions";
+import IndexPlayButton from "~/components/player/index-play-button";
+import SongTitle from "~/components/song/song-title";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
 import { type SongWithRelations } from "~/lib/types";
+import { toast } from "sonner";
+import { SongArtworkUploader } from "~/components/upload/song-artwork-uploader";
 
 const VersionConnector = dynamic(
-  () => import("~/components/version-connector"),
+  () => import("~/components/song/version-connector"),
 );
 
 const columns: ColumnDef<SongWithRelations>[] = [
@@ -55,13 +56,19 @@ const columns: ColumnDef<SongWithRelations>[] = [
 
 type SongDetailsProps = {
   id: string;
-  initialSong: NonNullable<RouterOutputs["song"]["getById"]>;
 };
 
-export default function SongDetails({ initialSong, id }: SongDetailsProps) {
+export default function SongDetails({ id }: SongDetailsProps) {
   const player = usePlayer();
-  const { data: song } = api.song.getById.useQuery(id, {
-    initialData: initialSong,
+  const utils = api.useUtils();
+
+  const [song] = api.song.getById.useSuspenseQuery(id);
+
+  const { mutate: deleteArtwork } = api.song.removeArtwork.useMutation({
+    onSuccess: () => {
+      void utils.song.getById.invalidate(id);
+      toast.success("Artwork removed!");
+    },
   });
 
   if (!song) return null;
@@ -87,8 +94,10 @@ export default function SongDetails({ initialSong, id }: SongDetailsProps) {
           width={300}
           height={300}
           className="aspect-square rounded-md object-cover"
+          onDelete={() => deleteArtwork({ songId: song.id })}
+          actionButton={<SongArtworkUploader songId={id} />}
+          priority
         />
-
         <div className="flex cursor-default flex-col items-start justify-end">
           <h1 className="text-xl font-bold">{song.title}</h1>
           <h3 className="pb-10 text-sm font-medium">{song.artist}</h3>

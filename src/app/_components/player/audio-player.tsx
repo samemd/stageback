@@ -3,11 +3,11 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
-import AudioProgressBar from "~/components/audio-progress-bar";
-import VolumeInput from "~/components/volume-input";
+import AudioProgressBar from "~/components/player/audio-progress-bar";
+import VolumeInput from "~/components/player/volume-input";
 import TitleScroller from "~/components/title-scroller";
-import PlayerControls from "~/components/player-controls";
-import usePlayer from "~/app/_hooks/usePlayer";
+import PlayerControls from "~/components/player/player-controls";
+import usePlayer from "~/app/_hooks/use-player";
 import { HiXMark } from "react-icons/hi2";
 import { Button } from "~/components/ui/button";
 import ImageWithFallback from "~/components/image-with-fallback";

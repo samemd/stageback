@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import AlbumCard from "~/components/album-card";
+import AlbumCard from "~/components/album/album-card";
 
 export default async function Page() {
   const albums = await api.album.getAll();

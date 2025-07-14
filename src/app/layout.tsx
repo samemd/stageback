@@ -3,8 +3,8 @@ import { Geist } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import NextAuthProvider from "~/app/_providers/auth-provider";
 import { type ReactNode } from "react";
-import { Toaster } from "sonner";
 import { ThemeProvider } from "~/app/_providers/theme-provider";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata = {
   title: "StageBack",
@@ -34,10 +34,10 @@ export default async function RootLayout({
               disableTransitionOnChange
             >
               {children}
+              <Toaster />
             </ThemeProvider>
           </TRPCReactProvider>
         </NextAuthProvider>
-        <Toaster />
       </body>
     </html>
   );

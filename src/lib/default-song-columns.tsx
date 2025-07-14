@@ -1,12 +1,12 @@
 import { type Column, type ColumnDef } from "@tanstack/react-table";
 import { type SongWithRelations } from "~/lib/types";
-import IndexPlayButton from "~/components/index-play-button";
+import IndexPlayButton from "~/components/player/index-play-button";
 import Link from "next/link";
 import { formatDuration } from "~/lib/utils";
 import React from "react";
-import SongActions from "~/components/song-actions";
+import SongActions from "~/components/song/song-actions";
 import ImageWithFallback from "~/components/image-with-fallback";
-import SongTitle from "~/components/song-title";
+import SongTitle from "~/components/song/song-title";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
 
 const headerWithSorting =

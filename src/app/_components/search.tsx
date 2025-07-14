@@ -3,12 +3,12 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { api } from "~/trpc/react";
 import { useEffect, useRef } from "react";
-import SongList from "~/components/song-list";
+import SongList from "~/components/song/song-list";
 import { defaultSongColumns } from "~/lib/default-song-columns";
 import { debounce } from "~/lib/utils";
 import { Input } from "~/components/ui/input";
 import { HiSearch } from "react-icons/hi";
-import usePlayer from "~/app/_hooks/usePlayer";
+import usePlayer from "~/app/_hooks/use-player";
 import { keepPreviousData } from "@tanstack/react-query";
 import { type SongWithRelations } from "~/lib/types";
 

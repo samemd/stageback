@@ -1,4 +1,6 @@
-import usePlayer from "~/app/_hooks/usePlayer";
+"use client";
+
+import usePlayer from "~/app/_hooks/use-player";
 import React, { type MouseEvent, useEffect, useState } from "react";
 import {
   type ColumnDef,

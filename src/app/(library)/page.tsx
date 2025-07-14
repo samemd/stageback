@@ -1,4 +1,4 @@
-import Uploader from "~/components/uploader";
+import Uploader from "~/components/upload/uploader";
 import { api } from "~/trpc/server";
 
 export default async function Home() {

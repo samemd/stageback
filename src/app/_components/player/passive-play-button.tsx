@@ -1,6 +1,6 @@
 "use client";
 
-import usePlayer from "~/app/_hooks/usePlayer";
+import usePlayer from "~/app/_hooks/use-player";
 import { HiPause, HiPlay } from "react-icons/hi2";
 import { type HTMLAttributes } from "react";
 import { cn } from "~/lib/utils";

@@ -18,7 +18,8 @@ export default function Uploader({ endpoint }: UploaderProps) {
       className="ut-button:ut ut-button:bg-primary ut-button:after:bg-primary ut-button:focus-within:ring-0 ut-button:ut-uploading:bg-primary/50 ut-upload-icon:ut-uploading:bg-primary"
       endpoint={endpoint}
       onClientUploadComplete={async (res) => {
-        await utils.song.getAll.invalidate();
+        void utils.song.getAll.invalidate();
+        void utils.song.getMainVersions.invalidate();
         if (!res?.[0] || !session.data?.user.id) return;
 
         toast.success("Upload Successful!", {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
-import usePlayer from "~/app/_hooks/usePlayer";
+import usePlayer from "~/app/_hooks/use-player";
 import { cn } from "~/lib/utils";
 import { type Song } from ".prisma/client";
 
@@ -24,7 +24,7 @@ export default function SongTitle({ song }: SongTitleProps) {
       >
         {song.title}
       </Link>
-      <div className="text-xs text-foreground/60">{song.artist}</div>
+      <div className="text-foreground/60 text-xs">{song.artist}</div>
     </div>
   );
 }

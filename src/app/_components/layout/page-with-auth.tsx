@@ -1,8 +1,8 @@
 import { type HTMLAttributes, Suspense } from "react";
 import { cn } from "~/lib/utils";
-import { ThemeSwitcher } from "~/components/theme-switcher";
-import Navigation from "~/components/navigation";
-import ProfileDropdown from "~/components/profile-dropdown";
+import { ThemeSwitcher } from "~/components/layout/theme-switcher";
+import Navigation from "~/components/layout/navigation";
+import ProfileDropdown from "~/components/layout/profile-dropdown";
 
 export default function PageWithAuth({
   children,

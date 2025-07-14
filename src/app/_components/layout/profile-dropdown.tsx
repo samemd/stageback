@@ -3,7 +3,6 @@
 import { api } from "~/trpc/react";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import type { Team } from ".prisma/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { HiOutlineUser } from "react-icons/hi2";
+import { type Team } from "@prisma/client";
 
 export default function ProfileDropdown() {
   const utils = api.useUtils();

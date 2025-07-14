@@ -46,16 +46,18 @@ export const songRouter = createTRPCRouter({
       });
     }),
 
-  getById: protectedProcedure.input(z.string()).query(({ ctx, input: id }) => {
-    return ctx.db.song.findUnique({
-      where: { id },
-      include: {
-        album: true,
-        versionOf: true,
-        versions: { include: { album: true }, orderBy: { title: "asc" } },
-      },
-    });
-  }),
+  getById: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input: id }) => {
+      return ctx.db.song.findUnique({
+        where: { id },
+        include: {
+          album: true,
+          versionOf: true,
+          versions: { include: { album: true }, orderBy: { title: "asc" } },
+        },
+      });
+    }),
 
   connectVersion: protectedProcedure
     .input(z.object({ id: z.string(), versionOfId: z.string() }))
@@ -107,6 +109,26 @@ export const songRouter = createTRPCRouter({
       ]);
 
       return { success: true, id: song.id };
+    }),
+
+  addArtwork: protectedProcedure
+    .input(z.object({ songId: z.string(), artworkUrl: z.string().optional() }))
+    .mutation(async ({ ctx, input }) => {
+      if (!input.artworkUrl) throw new TRPCError({ code: "BAD_REQUEST" });
+
+      return ctx.db.song.updateMany({
+        where: { OR: [{ id: input.songId }, { versionOfId: input.songId }] },
+        data: { artworkUrl: input.artworkUrl },
+      });
+    }),
+
+  removeArtwork: protectedProcedure
+    .input(z.object({ songId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.song.updateMany({
+        where: { OR: [{ id: input.songId }, { versionOfId: input.songId }] },
+        data: { artworkUrl: null },
+      });
     }),
 
   search: protectedProcedure

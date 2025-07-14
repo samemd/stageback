@@ -1,23 +1,25 @@
 "use client";
 
-import { api, type RouterOutputs } from "~/trpc/react";
+import { api } from "~/trpc/react";
 import ImageWithFallback from "~/components/image-with-fallback";
 import { Button } from "~/components/ui/button";
 import { HiPlay } from "react-icons/hi2";
 import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { type SongWithRelations } from "~/lib/types";
-import usePlayer from "~/app/_hooks/usePlayer";
+import usePlayer from "~/app/_hooks/use-player";
 import { type ColumnDef } from "@tanstack/react-table";
 import { formatDuration } from "~/lib/utils";
-import SongActions from "~/components/song-actions";
-import IndexPlayButton from "~/components/index-play-button";
-import SongTitle from "~/components/song-title";
+import SongActions from "~/components/song/song-actions";
+import IndexPlayButton from "~/components/player/index-play-button";
+import SongTitle from "~/components/song/song-title";
 import dynamic from "next/dynamic";
-import SongList from "~/components/song-list";
+import SongList from "~/components/song/song-list";
+import { toast } from "sonner";
+import { AlbumArtworkUploader } from "~/components/upload/album-artwork-uploader";
 
 const VersionConnector = dynamic(
-  () => import("~/components/version-connector"),
+  () => import("~/components/song/version-connector"),
 );
 
 const columns: ColumnDef<SongWithRelations>[] = [
@@ -55,21 +57,19 @@ const columns: ColumnDef<SongWithRelations>[] = [
 
 type AlbumDetailsProps = {
   id: string;
-  initialAlbum: NonNullable<RouterOutputs["album"]["getById"]>;
-  initialSongs: NonNullable<RouterOutputs["song"]["getMainVersionsForAlbum"]>;
 };
 
-export default function AlbumDetails({
-  id,
-  initialAlbum,
-  initialSongs,
-}: AlbumDetailsProps) {
+export default function AlbumDetails({ id }: AlbumDetailsProps) {
+  const utils = api.useUtils();
   const player = usePlayer();
-  const { data: album } = api.album.getById.useQuery(id, {
-    initialData: initialAlbum,
-  });
-  const { data: songs } = api.song.getMainVersionsForAlbum.useQuery(id, {
-    initialData: initialSongs,
+  const [album] = api.album.getById.useSuspenseQuery(id);
+  const [songs] = api.song.getMainVersionsForAlbum.useSuspenseQuery(id);
+
+  const { mutate: deleteArtwork } = api.album.removeArtwork.useMutation({
+    onSuccess: () => {
+      void utils.album.getById.invalidate(id);
+      toast.success("Artwork removed!");
+    },
   });
 
   if (!album) notFound();
@@ -83,6 +83,9 @@ export default function AlbumDetails({
           width={300}
           height={300}
           className="aspect-square rounded-md object-cover"
+          onDelete={() => deleteArtwork({ albumId: id })}
+          actionButton={<AlbumArtworkUploader albumId={id} />}
+          priority
         />
 
         <div className="flex cursor-default flex-col items-start justify-end">

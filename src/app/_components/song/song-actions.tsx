@@ -3,17 +3,20 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Button } from "~/components/ui/button";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import Link from "next/link";
-import { type Song } from ".prisma/client";
-import useVersionConnector from "~/app/_hooks/useVersionConnector";
+import useVersionConnector from "~/app/_hooks/use-version-connector";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { type Song } from ".prisma/client";
 
 type SongActionsProps = {
   song: Song;
@@ -44,33 +47,41 @@ export default function SongActions({ song }: SongActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem
-            onSelect={() => {
-              setSong(song);
-              setVersionModalOpen(true);
-            }}
-          >
-            Version of...
-          </DropdownMenuItem>
-          {song.versionOfId && (
-            <DropdownMenuItem onSelect={() => promote({ id: song.id })}>
-              Promote to main version
+          <DropdownMenuLabel>Version</DropdownMenuLabel>
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              onSelect={() => {
+                setSong(song);
+                setVersionModalOpen(true);
+              }}
+            >
+              Version of...
             </DropdownMenuItem>
-          )}
-          {song.versionOfId && (
-            <DropdownMenuItem>Unlink version</DropdownMenuItem>
-          )}
-          <DropdownMenuItem
-            onClick={() => navigator.clipboard.writeText(song.url)}
-          >
-            Copy file url
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href={song.url} download rel="noopener noreferrer">
-              Download
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>Delete</DropdownMenuItem>
+            {song.versionOfId && (
+              <DropdownMenuItem onSelect={() => promote({ id: song.id })}>
+                Promote to main version
+              </DropdownMenuItem>
+            )}
+            {song.versionOfId && (
+              <DropdownMenuItem>Unlink version</DropdownMenuItem>
+            )}
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>General</DropdownMenuLabel>
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(song.url)}
+            >
+              Copy file url
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={song.url} download rel="noopener noreferrer">
+                Download
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
